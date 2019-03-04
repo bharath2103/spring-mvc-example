@@ -1,20 +1,42 @@
 package com.gontuseries.hellocontroller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
- 
-public class HelloController extends AbstractController{
- 
-	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request,
-		HttpServletResponse response) throws Exception {
- 
-		ModelAndView modelandview = new ModelAndView("HelloPage");
-		modelandview.addObject("welcomeMessage", "Hi User, welcome to the first Spring MVC Application");
+
+import com.gontuseries.interceptor.FirstInterceptor;
+import com.sun.rowset.FilteredRowSetImpl;
+
+@Controller
+@RequestMapping("/employee")
+public class HelloController{
+
+
+	@RequestMapping(value = "/welcome", method = RequestMethod.GET)
+	public ModelAndView modelAndView() {
 		
-		return modelandview;
+		ModelAndView modelAndView = new ModelAndView("HelloPage");
+		modelAndView.addObject("welcomeMessage","greetings");
+		int c = 2/0;
+		return modelAndView;
 	}
+	
+	@RequestMapping(value = "/picasso", method = RequestMethod.GET)
+	public ModelAndView modelAndView2() {
+		
+		ModelAndView modelAndView = new ModelAndView("Register");
+		return modelAndView;
+	}
+	
+	
+	@ExceptionHandler(value = {Exception.class})
+	public ModelAndView handleAllException() {
+		ModelAndView modelAndView= new ModelAndView("error");
+		return modelAndView;
+	}
+	
 }
